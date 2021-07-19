@@ -9,23 +9,23 @@ namespace ULaw.ApplicationProcessor.Enums
     public enum DegreeGradeEnum : int
     {
         [DescriptionAttribute("1st")]
-        first,
+        First,
         [DescriptionAttribute("2:1")]
-        twoOne,
+        TwoOne,
         [DescriptionAttribute("2:2")]
-        twoTwo,
+        TwoTwo,
         [DescriptionAttribute("3rd")]
-        third
+        Third
     }
     
     public enum DegreeSubjectEnum : int
     {
         [DescriptionAttribute("Law")]
-        law,
+        Law,
         [DescriptionAttribute("Law and Business")]
-        lawAndBusiness,
+        LawAndBusiness,
         [DescriptionAttribute("Maths")]
-        maths,
+        Maths,
         [DescriptionAttribute("English")]
         English
     }

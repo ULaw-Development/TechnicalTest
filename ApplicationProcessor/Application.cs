@@ -1,25 +1,32 @@
 ﻿using System.Text;
+using Ulaw.ApplicationProcessor.Interfaces;
 using ULaw.ApplicationProcessor.Enums;
 using ULaw.ApplicationProcessor.Models;
 
 namespace ULaw.ApplicationProcessor
 {
 
-
-    public class Application
+    public class Application //Unsure if this is the user's application itself, or the application program. 
     {
-        public Application(ApplicationModel application)
+        public Application( ApplicationModel application, ITemplateBuilderFactory emailBuilderFactory )
         {
             Model = application;
+            EmailBuilderFactory = emailBuilderFactory;
         }
 
         public ApplicationModel Model { get; }
+        public ITemplateBuilderFactory EmailBuilderFactory { get; }
 
         public string Process()
         {
+
+            IEmailBuilder emailBuilder = EmailBuilderFactory.CreateBuilder( Model );
+            return emailBuilder.Build();
+
+
             var result = new StringBuilder( "<html><body><h1>Your Recent Application from the University of Law</h1>" );
 
-            if ( Model.DegreeGrade == DegreeGradeEnum.twoTwo )
+            if ( Model.DegreeGrade == DegreeGradeEnum.TwoTwo )
             {
                 result.Append( string.Format( "<p> Dear {0}, </p>", Model.User.FirstName ) );
                 result.Append( string.Format( "<p/> Further to your recent application for our course reference: {0} starting on {1}, we are writing to inform you that we are currently assessing your information and will be in touch shortly.", Model.CourseCode, Model.StartDate.ToLongDateString() ) );
@@ -29,7 +36,7 @@ namespace ULaw.ApplicationProcessor
             }
             else
             {
-                if ( Model.DegreeGrade == DegreeGradeEnum.third )
+                if ( Model.DegreeGrade == DegreeGradeEnum.Third )
                 {
                     result.Append( string.Format( "<p> Dear {0}, </p>", Model.User.FirstName ) );
                     result.Append( "<p/> Further to your recent application, we are sorry to inform you that you have not been successful on this occasion." );
@@ -39,7 +46,7 @@ namespace ULaw.ApplicationProcessor
                 }
                 else
                 {
-                    if ( Model.DegreeSubject == DegreeSubjectEnum.law || Model.DegreeSubject == DegreeSubjectEnum.lawAndBusiness )
+                    if ( Model.DegreeSubject == DegreeSubjectEnum.Law || Model.DegreeSubject == DegreeSubjectEnum.LawAndBusiness )
                     {
                         decimal depositAmount = 350.00M;
 
